@@ -21,22 +21,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.android.basiccompose.ui.theme.BasicComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 //        val viewModel: MainScreenViewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)
-        val viewModel by viewModels<MainScreenViewModel>()
+//        val viewModel by viewModels<MainScreenViewModel>()
 
         setContent {
             BasicComposeTheme {
+
+                val viewModel = hiltViewModel<MainScreenViewModel>()
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),

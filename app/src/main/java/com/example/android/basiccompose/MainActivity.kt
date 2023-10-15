@@ -3,6 +3,7 @@ package com.example.android.basiccompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,11 +21,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.android.basiccompose.ui.theme.BasicComposeTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        val viewModel: MainScreenViewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)
+        val viewModel by viewModels<MainScreenViewModel>()
+
         setContent {
             BasicComposeTheme {
                 // A surface container using the 'background' color from the theme
@@ -32,7 +42,22 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+//                    MainScreen()
+
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "${viewModel.count}")
+                        Button(
+                            onClick = {
+                                viewModel.increment()
+                            }
+                        ) {
+                            Text(text = "Increment 1")
+                        }
+                    }
+
                 }
             }
         }
@@ -41,8 +66,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
-//    IncrementScreen()
-    SendMassageScreen()
+    IncrementScreen()
+//    SendMassageScreen()
 }
 
 @Composable
